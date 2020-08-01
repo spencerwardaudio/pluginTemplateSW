@@ -152,12 +152,17 @@ void PluginTemplateSwAudioProcessor::processBlock (AudioBuffer<float>& buffer, M
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         auto* channelData = buffer.getWritePointer (channel);
         
-        ignoreUnused(channelData);
+        outputVolume[channel].applyGain(channelData, buffer.getNumSamples());
+        
+        for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
+        {
+            //Hard clip values
+            channelData[sample] = jlimit(-1.0f, 1.0f, channelData[sample]);
+        }
 
         // ..do something to the data...
     }
@@ -171,7 +176,7 @@ bool PluginTemplateSwAudioProcessor::hasEditor() const
 
 AudioProcessorEditor* PluginTemplateSwAudioProcessor::createEditor()
 {
-    return new PluginTemplateSwAudioProcessorEditor (*this);
+    return new GenericAudioProcessorEditor (*this);
 }
 
 //==============================================================================
@@ -212,9 +217,22 @@ void PluginTemplateSwAudioProcessor::update()
     
     //Update DSP when a user changes parameters
     mustUpdateProcessing = false;
+    
+    auto volume = apvts.getRawParameterValue("VOL");
+    
+    for (int channel = 0; channel < 2; ++channel)
+    {
+        outputVolume[channel].setTargetValue(Decibels::decibelsToGain(volume->load()));
+    }
+
+    
 }
 void PluginTemplateSwAudioProcessor::reset()
 {
+    for (int channel = 0; channel < 2; ++channel)
+    {
+    outputVolume[channel].reset(getSampleRate(), 0.050);
+    }
     // Reset DSP parameters
 }
 

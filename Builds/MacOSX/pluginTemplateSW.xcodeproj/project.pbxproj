@@ -732,7 +732,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				OTHER_LDFLAGS = "-bundle -lpluginTemplateSW";
 				OTHER_REZFLAGS = "-d ppc_$ppc -d i386_$i386 -d ppc64_$ppc64 -d x86_64_$x86_64 -I /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Versions/A/Headers -I \"$(DEVELOPER_DIR)/Extras/CoreAudio/AudioUnits/AUPublic/AUBase\" -I \"$(DEVELOPER_DIR)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/AudioUnit.framework/Headers\"";
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.pluginTemplateSW;
+				PRODUCT_BUNDLE_IDENTIFIER = com.AudioCrossover.pluginTemplateSW;
 				PRODUCT_NAME = "pluginTemplateSW";
 				USE_HEADERMAP = NO;
 				WRAPPER_EXTENSION = component;
@@ -784,7 +784,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				OTHER_LDFLAGS = "-bundle -lpluginTemplateSW";
 				OTHER_REZFLAGS = "-d ppc_$ppc -d i386_$i386 -d ppc64_$ppc64 -d x86_64_$x86_64 -I /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Versions/A/Headers -I \"$(DEVELOPER_DIR)/Extras/CoreAudio/AudioUnits/AUPublic/AUBase\" -I \"$(DEVELOPER_DIR)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/AudioUnit.framework/Headers\"";
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.pluginTemplateSW;
+				PRODUCT_BUNDLE_IDENTIFIER = com.AudioCrossover.pluginTemplateSW;
 				PRODUCT_NAME = "pluginTemplateSW";
 				USE_HEADERMAP = NO;
 				WRAPPER_EXTENSION = component;
@@ -828,7 +828,7 @@
 				);
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.pluginTemplateSW;
+				PRODUCT_BUNDLE_IDENTIFIER = com.AudioCrossover.pluginTemplateSW;
 				PRODUCT_NAME = "pluginTemplateSW";
 				SKIP_INSTALL = YES;
 				USE_HEADERMAP = NO;
@@ -873,7 +873,7 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.pluginTemplateSW;
+				PRODUCT_BUNDLE_IDENTIFIER = com.AudioCrossover.pluginTemplateSW;
 				PRODUCT_NAME = "pluginTemplateSW";
 				SKIP_INSTALL = YES;
 				USE_HEADERMAP = NO;
@@ -1128,7 +1128,7 @@
 		53E30E35FE44FC33CBA08A41 = {
 			isa = PBXProject;
 			buildConfigurationList = B6F5D2EA7E8B538F2072278C;
-			attributes = { LastUpgradeCheck = 1100; ORGANIZATIONNAME = ""; TargetAttributes = { 1A0476FAB0386FB39C93EDDD = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; com.apple.HardenedRuntime = { enabled = 0; }; }; };3B15CACF24721A69D1AC9DEA = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; com.apple.HardenedRuntime = { enabled = 0; }; }; };F6B80BC221DA851639C88F0C = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; com.apple.HardenedRuntime = { enabled = 0; }; }; }; }; };
+			attributes = { LastUpgradeCheck = 1100; ORGANIZATIONNAME = "AudioCrossover"; TargetAttributes = { 1A0476FAB0386FB39C93EDDD = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; com.apple.HardenedRuntime = { enabled = 0; }; }; };3B15CACF24721A69D1AC9DEA = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; com.apple.HardenedRuntime = { enabled = 0; }; }; };F6B80BC221DA851639C88F0C = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; com.apple.HardenedRuntime = { enabled = 0; }; }; }; }; };
 			compatibilityVersion = "Xcode 3.2";
 			hasScannedForEncodings = 0;
 			mainGroup = 4123D98CCC642D50F4C81B2E;

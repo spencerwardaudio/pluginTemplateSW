@@ -69,6 +69,9 @@ private:
     
     bool isActive { false };
     bool mustUpdateProcessing { false };
+//    float outputVolume { 0.0 };
+    
+    LinearSmoothedValue<float> outputVolume [2] { 0.0 };
     
     void valueTreePropertyChanged(ValueTree &treeWhosePropertyHasChanged, const Identifier &property) override
     {

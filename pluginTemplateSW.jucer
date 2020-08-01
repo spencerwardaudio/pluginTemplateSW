@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="ZwHfCB" name="pluginTemplateSW" projectType="audioplug" jucerVersion="5.4.7"
-              pluginFormats="buildAU">
+              pluginFormats="buildAU" companyName="AudioCrossover">
   <MAINGROUP id="qKPnRz" name="pluginTemplateSW">
     <GROUP id="{1D0553EB-20BC-6558-27B5-4DCE432E2169}" name="Source">
       <FILE id="IV8bTO" name="PluginProcessor.cpp" compile="1" resource="0"
