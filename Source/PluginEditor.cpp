@@ -47,8 +47,19 @@ PluginTemplateSwAudioProcessorEditor::~PluginTemplateSwAudioProcessorEditor()
 //==============================================================================
 void PluginTemplateSwAudioProcessorEditor::paint (Graphics& g)
 {
+    auto bounds = getLocalBounds();
+    auto textBounds = bounds.removeFromTop(40);
+    
     // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));
+    g.setColour (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));
+    g.fillRect (bounds);
+    
+    g.setColour (Colours::black);
+    g.fillRect (textBounds);
+    
+    g.setColour(Colours::white);
+    g.setFont(Font (20.0f).italicised().withExtraKerningFactor(0.1f));
+    g.drawFittedText ("DSP Lesson 1", textBounds, Justification::centredLeft, 1);
 
 }
 
