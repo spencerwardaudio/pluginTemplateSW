@@ -177,15 +177,16 @@ AudioProcessorEditor* PluginTemplateSwAudioProcessor::createEditor()
 //==============================================================================
 void PluginTemplateSwAudioProcessor::getStateInformation (MemoryBlock& destData)
 {
-    // You should use this method to store your parameters in the memory block.
-    // You could do that either as raw data, or use the XML or ValueTree classes
-    // as intermediaries to make it easy to save and load complex data.
+    ValueTree copyState = apvts.copyState();
+    std::unique_ptr<XmlElement> xml = copyState.createXml();
+    copyXmlToBinary(*xml.get(), destData);
 }
 
 void PluginTemplateSwAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    // You should use this method to restore your parameters from this memory block,
-    // whose contents will have been created by the getStateInformation() call.
+    std::unique_ptr<XmlElement> xml = getXmlFromBinary(data, sizeInBytes);
+    ValueTree copyState = ValueTree::fromXml(*xml.get());
+    apvts.replaceState(copyState);
 }
 
 //==============================================================================
@@ -220,6 +221,12 @@ void PluginTemplateSwAudioProcessor::reset()
 AudioProcessorValueTreeState::ParameterLayout PluginTemplateSwAudioProcessor::createParameters()
 {
     std::vector<std::unique_ptr<RangedAudioParameter>> parameters;
+    
+    std::function<String(float, int)> valueToTextFunction = [](float x, int l) { return String(x, 4); };
+    std::function<float (const String&)> textToValueFunction = [](const String& str) { return str.getFloatValue(); };
+ 
+    //Volume
+    parameters.push_back(std::make_unique<AudioParameterFloat>("VOL", "Volume", NormalisableRange< float > (-40.0f, 40.0f), 0.0f, "db", AudioProcessorParameter::genericParameter, valueToTextFunction, textToValueFunction));
     
     //create our parameters
     //add them to vector
