@@ -27,6 +27,10 @@ public:
     void resized() override;
 
 private:
+    
+    std::unique_ptr<Slider> volumeSlider, lpfSlider;
+    std::unique_ptr<Label> volumeLabel,  lpfLabel;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> volumeAttachment, lpfAttachment;
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     PluginTemplateSwAudioProcessor& processor;

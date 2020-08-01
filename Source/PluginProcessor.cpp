@@ -148,17 +148,21 @@ void PluginTemplateSwAudioProcessor::processBlock (AudioBuffer<float>& buffer, M
     ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
+    
+    auto numSamples = buffer.getNumSamples();
 
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
-        buffer.clear (i, 0, buffer.getNumSamples());
+        buffer.clear (i, 0, numSamples);
 
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         auto* channelData = buffer.getWritePointer (channel);
         
-        outputVolume[channel].applyGain(channelData, buffer.getNumSamples());
+        iirFilter[channel].processSamples(channelData, numSamples);
         
-        for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
+        outputVolume[channel].applyGain(channelData, numSamples);
+        
+        for (int sample = 0; sample < numSamples; ++sample)
         {
             //Hard clip values
             channelData[sample] = jlimit(-1.0f, 1.0f, channelData[sample]);
@@ -176,7 +180,7 @@ bool PluginTemplateSwAudioProcessor::hasEditor() const
 
 AudioProcessorEditor* PluginTemplateSwAudioProcessor::createEditor()
 {
-    return new GenericAudioProcessorEditor (*this);
+    return new PluginTemplateSwAudioProcessorEditor (*this);
 }
 
 //==============================================================================
@@ -218,10 +222,13 @@ void PluginTemplateSwAudioProcessor::update()
     //Update DSP when a user changes parameters
     mustUpdateProcessing = false;
     
+    auto frequency = apvts.getRawParameterValue("LPF");
     auto volume = apvts.getRawParameterValue("VOL");
+    
     
     for (int channel = 0; channel < 2; ++channel)
     {
+        iirFilter[channel].setCoefficients(IIRCoefficients::makeLowPass(getSampleRate(), frequency->load()));
         outputVolume[channel].setTargetValue(Decibels::decibelsToGain(volume->load()));
     }
 
@@ -231,7 +238,9 @@ void PluginTemplateSwAudioProcessor::reset()
 {
     for (int channel = 0; channel < 2; ++channel)
     {
-    outputVolume[channel].reset(getSampleRate(), 0.050);
+        iirFilter[channel].reset();
+        
+        outputVolume[channel].reset(getSampleRate(), 0.050);
     }
     // Reset DSP parameters
 }
@@ -242,6 +251,9 @@ AudioProcessorValueTreeState::ParameterLayout PluginTemplateSwAudioProcessor::cr
     
     std::function<String(float, int)> valueToTextFunction = [](float x, int l) { return String(x, 4); };
     std::function<float (const String&)> textToValueFunction = [](const String& str) { return str.getFloatValue(); };
+    
+    //Filter
+    parameters.push_back(std::make_unique<AudioParameterFloat>("LPF", "Low Pass Filter", NormalisableRange<float>(20.0f, 22000.0f, 10.0f, 0.2f), 800.0f, "Hz", AudioProcessorParameter::genericParameter, valueToTextFunction, textToValueFunction));
  
     //Volume
     parameters.push_back(std::make_unique<AudioParameterFloat>("VOL", "Volume", NormalisableRange< float > (-40.0f, 40.0f), 0.0f, "db", AudioProcessorParameter::genericParameter, valueToTextFunction, textToValueFunction));
