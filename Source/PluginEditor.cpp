@@ -35,13 +35,24 @@ PluginTemplateSwAudioProcessorEditor::PluginTemplateSwAudioProcessorEditor (Plug
     lpfLabel->attachToComponent(lpfSlider.get(), false);
     lpfLabel->setJustificationType(Justification::centred);
     
-    // Make sure that before the constructor has finished, you've set the
-    // editor's size to whatever you need it to be.
+    lookAndFeelButton = std::make_unique<TextButton>("LookAndFeel");
+    addAndMakeVisible(lookAndFeelButton.get());
+    
+    lookAndFeelButton->addListener (this);
+    
+    theLFDark.setColourScheme(LookAndFeel_V4::getDarkColourScheme());
+    theLFMid.setColourScheme(LookAndFeel_V4::getMidnightColourScheme());
+    theLFGrey.setColourScheme(LookAndFeel_V4::getGreyColourScheme());
+    theLFLight.setColourScheme(LookAndFeel_V4::getLightColourScheme());
+    
+    LookAndFeel::setDefaultLookAndFeel(&theLFDark);
+    
     setSize (400, 300);
 }
 
 PluginTemplateSwAudioProcessorEditor::~PluginTemplateSwAudioProcessorEditor()
 {
+    LookAndFeel::setDefaultLookAndFeel(nullptr);
 }
 
 //==============================================================================
@@ -66,8 +77,11 @@ void PluginTemplateSwAudioProcessorEditor::paint (Graphics& g)
 void PluginTemplateSwAudioProcessorEditor::resized()
 {
     auto bounds = getLocalBounds();
-    bounds.removeFromTop(40);
-    bounds.reduce(40, 40);
+    auto rectTop = bounds.removeFromTop(40);
+    bounds.reduce (40, 40);
+    
+    rectTop.reduce (10, 0);
+    lookAndFeelButton->setBounds (rectTop.removeFromRight(120).withSizeKeepingCentre(120, 24));
     
     Grid grid;
     using Track = Grid::TrackInfo;
@@ -82,4 +96,45 @@ void PluginTemplateSwAudioProcessorEditor::resized()
     grid.rowGap = Grid::Px (10);
     
     grid.performLayout(bounds);
+}
+
+void PluginTemplateSwAudioProcessorEditor::buttonClicked (Button* button)
+{
+    if (button == lookAndFeelButton.get())
+    {
+        PopupMenu m;
+        
+        m.addItem(1, "Dark look and feel", true, currentLF == 1);
+        m.addItem(2, "Midnight look and feel", true, currentLF == 2);
+        m.addItem(3, "Grey look and feel", true, currentLF == 3);
+        m.addItem(4, "Light look and feel", true, currentLF == 4);
+        
+        m.addSeparator();
+        m.addItem(5, "JUCE 4 Look and Feel", true, currentLF == 5);
+        m.addItem(6, "JUCE 3 Look and Feel", true, currentLF == 6);
+        
+        
+        auto result = m.showAt (lookAndFeelButton.get());
+        
+        if (result == 1)
+            LookAndFeel::setDefaultLookAndFeel (&theLFDark);
+        
+        else if (result == 2)
+            LookAndFeel::setDefaultLookAndFeel (&theLFMid);
+        
+        else if (result == 3)
+            LookAndFeel::setDefaultLookAndFeel (&theLFGrey);
+        
+        else if (result == 4)
+            LookAndFeel::setDefaultLookAndFeel (&theLFLight);
+        
+        else if (result == 5)
+            LookAndFeel::setDefaultLookAndFeel (&theLFV3);
+        
+        else if (result == 6)
+            LookAndFeel::setDefaultLookAndFeel (&theLFV2);
+        
+        if(result != 0)
+            currentLF = result;
+    }
 }

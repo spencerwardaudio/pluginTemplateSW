@@ -16,7 +16,7 @@
 //==============================================================================
 /**
 */
-class PluginTemplateSwAudioProcessorEditor  : public AudioProcessorEditor
+class PluginTemplateSwAudioProcessorEditor  : public AudioProcessorEditor, public Button::Listener
 {
 public:
     PluginTemplateSwAudioProcessorEditor (PluginTemplateSwAudioProcessor&);
@@ -25,14 +25,21 @@ public:
     //==============================================================================
     void paint (Graphics&) override;
     void resized() override;
+    
+    void buttonClicked (Button* button) override;
 
 private:
     
     std::unique_ptr<Slider> volumeSlider, lpfSlider;
     std::unique_ptr<Label> volumeLabel,  lpfLabel;
     std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> volumeAttachment, lpfAttachment;
-    // This reference is provided as a quick way for your editor to
-    // access the processor object that created it.
+    std::unique_ptr<TextButton> lookAndFeelButton;
+    
+    LookAndFeel_V4 theLFDark, theLFMid, theLFGrey, theLFLight;
+    LookAndFeel_V3 theLFV3;
+    LookAndFeel_V1 theLFV2;
+    int currentLF = 1;
+
     PluginTemplateSwAudioProcessor& processor;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PluginTemplateSwAudioProcessorEditor)
