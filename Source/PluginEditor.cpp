@@ -50,13 +50,25 @@ void PluginTemplateSwAudioProcessorEditor::paint (Graphics& g)
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));
 
-    g.setColour (Colours::white);
-    g.setFont (15.0f);
-    g.drawFittedText ("Hello World!", getLocalBounds(), Justification::centred, 1);
 }
 
 void PluginTemplateSwAudioProcessorEditor::resized()
 {
-    // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor..
+    auto bounds = getLocalBounds();
+    bounds.removeFromTop(40);
+    bounds.reduce(40, 40);
+    
+    Grid grid;
+    using Track = Grid::TrackInfo;
+    using Fr = Grid::Fr;
+    
+    grid.items.add(GridItem(lpfSlider.get()));
+    grid.items.add(GridItem (volumeSlider.get()));
+    
+    grid.templateColumns = { Track (Fr (1)), Track (Fr (1)), Track (Fr (1)), Track (Fr (1)) };
+    grid.templateRows = { Track (Fr (1)), Track (Fr (1)) };
+    grid.columnGap = Grid::Px (10);
+    grid.rowGap = Grid::Px (10);
+    
+    grid.performLayout(bounds);
 }
